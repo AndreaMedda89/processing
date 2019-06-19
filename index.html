@@ -9,49 +9,49 @@
     <body>
         <h1>Processing project by Andrea Medda</h1>
         <script type="text/processing">
-
-int x;
-int y;
-float r;
-void setup(){
-size (500,500);
-x = 250;
-y = 250;
-r = 0;
-}
-void draw(){
-background(255);
-fill(0);
-ellipse(250,250,480,480); //creazione cerchio "orologio"
-strokeWeight(2);
-stroke(255);
-line(250,10,250,30); //creazione linette orario
-line(490,250,470,250);
-line(250,490,250,470);
-line(10,250,30,250);
-pushMatrix(); //creazione stack per cambiamento cordinate 
-translate(x,y); //cambio cordinate base da 0,0 a 250,250
-lancettaOre(); //creazioni UDF per comodità
-lancettaMin();
-lancettaSec();
-popMatrix(); //rimozione stack per cambiamento cordinate
-
-r+=1;
-
+void setup() {
+  size(500, 500);
 }
 
-void lancettaOre(){ //funzioni "line che rappresentano le lancette dell'orologio"
-rotate(radians(r)); //funzione di rotazione
-strokeWeight(4); //attributi della linea ( larghezza bordi linea)
-line(0,0,50,50);}
-void lancettaMin(){
-rotate(radians(r));
-strokeWeight(2);
-line(0,0,75,75);}
-void lancettaSec(){
-rotate(radians(r));
-line(0,0,150,150);
+void draw() {
+  background(255);
+  fill(0);
+  stroke(2);
+  fill(255);
+  ellipse(250,250,480,480);//creazione cerchio "orologio"
+  line(250,10,250,30); //creazione linette orario
+  line(490,250,470,250);
+  line(250,490,250,470);
+  line(10,250,30,250);
+  translate(250, 250);
+  rotate(radians(-90)); //rotazione
+  int hr = hour();//assegno alle variabili hr,mn,sc le built-in function ore minuti e secondi per "leggere" l'orario dal proprio pc
+  int mn = minute();
+  int sc = second();
+  float angoloSec = map(sc, 0, 60, 0,radians(360)); //uso la funzione map per "mappare l'angolo del valore secondi eminuti in un range da 0 a 60 e da 0 a 12 per le ore
+  float angoloMin = map(mn, 0, 60, 0, radians(360));
+  float angoloHr = map(hr % 12, 0, 12, 0, radians(360));
+  pushMatrix();
+  rotate(angoloSec);
+  strokeWeight(2);
+  stroke(0);
+  line(0, 0, 100, 0); //lancetta sec
+  popMatrix();
+  pushMatrix();
+  strokeWeight(4);
+  rotate(angoloMin);
+  stroke(0);
+  line(0, 0, 75, 0); //lancetta min
+  popMatrix();
+  pushMatrix();
+  rotate(angoloHr);
+  strokeWeight(6);
+  stroke(0);
+  line(0, 0, 50, 0);//lancetta ore
+  popMatrix();
 }
+
+
             
         </script>
         <canvas></canvas>
